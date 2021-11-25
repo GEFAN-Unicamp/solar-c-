@@ -5,6 +5,8 @@ Created by Dipyaman Pramanik
 
 This is the code for the simulation of SNO and Borexino data.
 
+Perfoms analysis for neutrino decay
+
 The codes are inside the codes folder. There is one dependency, it is 
 gsl. gsl has been used for interpolation. 
 
