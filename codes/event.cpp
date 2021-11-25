@@ -153,6 +153,9 @@ int SNO::InitEventGenerator()
         }
         
     }
+
+	
+
     
     
     return 0;
@@ -680,6 +683,8 @@ int Borexino::InitEventGenerator()
     
 		
 	}
+
+    back.read_file(back_file);
 
 
 

@@ -203,6 +203,7 @@ int Wrapper_class::Calculate_probability()
 int Wrapper_class::Calculate_Event()
 {
 	Probability proba;
+	proba.prob_path = file_path;
 	proba.Init_probability_engine();
 	proba.osc_params = params;
     
@@ -213,6 +214,7 @@ int Wrapper_class::Calculate_Event()
 		Borexino _borex;
 		_borex.Set_probability(proba);
 		_borex.proba.osc_params = params;
+		_borex.back_file = file_path + "/exp_data/Borexino_be.dat";
 		_borex.InitEventGenerator();
 
 		std::ofstream ofl;

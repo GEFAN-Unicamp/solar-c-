@@ -44,6 +44,7 @@ public:
 public:
     vec osc_params;
     double Energy;
+    std::string prob_path;
 
     double *pday,*pmed;
     double Th12,Th13,Dm21,Dm31;

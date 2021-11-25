@@ -28,6 +28,7 @@ int Probability::wrap_oscparams()
 
 int Probability::Init_probability_engine()
 {
+	
     interpolate_data();
     
     pday = new double[8];
@@ -42,7 +43,8 @@ int Probability::interpolate_data()
 {
 
     file_reader distri;
-    distri.read_file("/home/dipyaman/Documents/solar/solar_nu/prod_dist/bs05opflux2.dat");
+    std::string distri_path = prob_path + "/prod_dist/bs05opflux2.dat";
+    distri.read_file(distri_path);
 
     
     vec *prod_data;
@@ -72,7 +74,8 @@ int Probability::interpolate_data()
     }
     
     file_reader rho_sol;
-    rho_sol.read_file("/home/dipyaman/Documents/solar/solar_nu/solar_density/bs2005op.dat");
+    std::string rho_path = prob_path + "/solar_density/bs2005op.dat";
+    rho_sol.read_file(rho_path);
     
     vec rho_sol_x,rho_sol_y;
     
@@ -224,7 +227,8 @@ int dec_probability::init_interpolate_flux()
 {
     if(source==4)
     {
-        flux.read_file("/home/dipyaman/Documents/solar/solar_nu/flux/b8spectrum.txt");
+		std::string flux_path = prob_path + "/flux/b8spectrum.txt";
+        flux.read_file(flux_path);
     }
     
     int size_v = int(flux.data[0].size()-2);

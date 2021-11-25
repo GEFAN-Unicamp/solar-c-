@@ -118,7 +118,6 @@ public:
         }
 
 //
-        back.read_file("/home/dipyaman/Documents/solar/solar_nu/exp_data/Borexino_be.dat");
         
     }
     
@@ -151,7 +150,6 @@ private:
     double integrate_cross(double,double);
     file_reader back;
 
-
     double Propagation(double);
     double Survival(double);
     double Kernel_recons(double);   
@@ -163,6 +161,8 @@ public:
     int n_bins;
     double bin_0,bin_w,bin_n,norm;
     vec bin_i,bin_f,bin_center,event_vector;
+   	std::string back_file;
+
     
 private:
     int _standard;
