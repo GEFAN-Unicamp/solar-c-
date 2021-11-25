@@ -234,9 +234,10 @@ int Wrapper_class::Calculate_Event()
 			ofl<<_borex.bin_center[i]<<"\t"<<_borex.event_vector[i]<<std::endl;
 			
 		}
-
+		
+		_borex.FreeEventGenerator();
 		ofl.close();
-        
+		  
         std::cout<<"The output is written into ../data_files/event_Borexino_"<<out_file<<std::endl;
         
 	}
@@ -290,6 +291,10 @@ int Wrapper_class::Calculate_Event()
 		  ofl<<_sno.bin_center[i]<<"\t"<<_sno.event_vector[i]<<std::endl;
 
 	   }
+	   
+      _sno.FreeEventGenerator();
+      ofl.close();
+
 		
 	   std::cout<<"The output is written into ../data_files/event_SNO_"<<out_file<<std::endl;
        
@@ -306,6 +311,143 @@ int Wrapper_class::Calculate_Event()
 
 int Wrapper_class::Calculate_1d_chi2()
 {
+	Probability proba;
+	proba.prob_path = file_path;
+	proba.Init_probability_engine();
+	proba.osc_params = params;
+	
+	if(Experiment=="Borexino")
+	{
+		Borexino _borex;
+		_borex.Set_probability(proba);
+		_borex.proba.osc_params = params;
+		_borex.back_file = file_path + "/exp_data/Borexino_be.dat";
+		_borex.InitEventGenerator();
+
+		std::string nParam;
+		std::cout<<"Give the x-axis for the run [th12,dm21,tau,delta]\n";
+		std::cin>>nParam;
+
+		std::ofstream ofl;
+		
+		
+		if(nParam=="th12")
+		{
+	
+	
+			std::string output = file_path + "/data_files/chi2_1d_Borexino_" + nParam + "_"+ out_file;
+			ofl.open(output);
+		
+	
+			for(double x=0.0;x<90.0;x=x+0.1)
+			{
+				params[0] = x*(M_PI/180.0);
+				double chi = _borex.Chi_nosys(params);
+
+				std::cout<<x<<"\t"<<chi<<std::endl;
+				ofl<<x<<"\t"<<chi<<std::endl;
+
+
+			}
+			
+			ofl.close();
+		  
+			std::cout<<"The output is written into ../data_files/chi2_1d_Borexino_"<<nParam<<"_"<<out_file<<std::endl;
+			
+		}
+		else if(nParam=="dm21")
+		{
+	
+	
+			std::string output = file_path + "/data_files/chi2_1d_Borexino_" + nParam + "_"+ out_file;
+			ofl.open(output);
+		
+	
+			for(double x=-7.0;x<-3.0;x=x+0.1)
+			{
+				params[4] = pow(10,x);
+				double chi = _borex.Chi_nosys(params);
+
+				std::cout<<pow(10,x)<<"\t"<<chi<<std::endl;
+				ofl<<pow(10,x)<<"\t"<<chi<<std::endl;
+
+
+			}
+			
+			ofl.close();
+		  
+			std::cout<<"The output is written into ../data_files/chi2_1d_Borexino_"<<nParam<<"_"<<out_file<<std::endl;
+			
+		}
+		else if(nParam=="tau")
+		{
+	
+	
+			std::string output = file_path + "/data_files/chi2_1d_Borexino_" + nParam + "_"+ out_file;
+			ofl.open(output);
+		
+	
+			for(double x=-5.0;x<0.0;x=x+0.1)
+			{
+				params[6] = pow(10,x);
+				double chi = _borex.Chi_nosys(params);
+
+				std::cout<<pow(10,x)<<"\t"<<chi<<std::endl;
+				ofl<<pow(10,x)<<"\t"<<chi<<std::endl;
+
+
+			}
+			
+			ofl.close();
+		  
+			std::cout<<"The output is written into ../data_files/chi2_1d_Borexino_"<<nParam<<"_"<<out_file<<std::endl;
+			
+		}
+		
+		else if(nParam=="delta")
+		{
+	
+	
+			std::string output = file_path + "/data_files/chi2_1d_Borexino_" + nParam + "_"+ out_file;
+			ofl.open(output);
+		
+	
+			for(double x=0.01;x<1.0;x=x+0.01)
+			{
+				params[7] = x;
+				double chi = _borex.Chi_nosys(params);
+
+				std::cout<<x<<"\t"<<chi<<std::endl;
+				ofl<<x<<"\t"<<chi<<std::endl;
+
+
+			}
+			
+			ofl.close();
+		  
+			std::cout<<"The output is written into ../data_files/chi2_1d_Borexino_"<<nParam<<"_"<<out_file<<std::endl;
+			
+		}
+		else
+		{
+			std::cerr<<"Invalid parameter ...\n";
+			abort();
+		}
+       
+		_borex.FreeEventGenerator();
+		
+		
+	}
+	else if(Experiment=="SNO")
+	{
+		
+	}
+    else
+	{
+		std::cerr<<"Error!! Invalid experiment\n";
+		abort();
+	}
+	
 	return 0;
 }
 
