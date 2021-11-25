@@ -117,16 +117,11 @@ public:
             bin_center.push_back(bin_0+(i+0.5)*bin_w);
         }
 
-//
+
         
     }
     
-//    ~Borexino()
-//    {
-//        delete smear_mat;
-//        samplings.clear();
-//    }
-    
+
     Probability proba;
     double standard_events(double);
     double decayed_events(double,double);
