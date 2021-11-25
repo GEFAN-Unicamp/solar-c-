@@ -485,19 +485,12 @@ double Borexino::elastic_cross(double E, double E_nu)
     
     double sigma = sigma_0/me*(term1+term2-term3);
     
- //   std::cout<<sigma<<"\n";
     if(E>T_max || E<200.0)
     {
          sigma = 0.0;
      }
     
-//    if(sigma<0)
-//    {
-    //    std::cout<<"sigma = "<<sigma<<";T = "<<E<<"; E_nu = "<<E_nu<<"; T_max = "<<T_max<<"\n";
-        
-//    }
 
-    
     return sigma;
 }
 
@@ -510,27 +503,9 @@ double Borexino::resFunc(double E, double E_p)
 }
 
 
-/*
-double Borexino::decay_events(double T)
-{
-	double a = 10;
-	double b = 1600.0;
-
-	int n_samples = 50;
-
-	vec smp_points;
-
-	double T_min = T-3*Sigma;
-	double T_max = T+3*Sigma;
-
-	double 
-
-}
-*/
 
 double Borexino::standard_events(double T)
 {
-  //  double me = 511.0;
     double a = 10;
     double b = 1600.0;//2.0*square(862)/(me+2.0*862);
 
@@ -538,9 +513,7 @@ double Borexino::standard_events(double T)
    
 
     std::vector<double> smp_points;
-    
-    //double T_min = T-3*Sigma;
-    //double T_max = T+3*Sigma;
+;
     
     double sam_width = (b-a)/n_samples;
     
@@ -554,26 +527,15 @@ double Borexino::standard_events(double T)
     for(int i=0;i<n_samples;i++)
     {
         double term=0.0;
-//        if(smp_points[i]>T_min && smp_points[i]<T_max)
-//        {
+
             term = sam_width/2.0*(integrand(smp_points[i],T)+integrand(smp_points[i]+sam_width,T));
-//        }
-//        else
-//        {
-//            term = 1e-100;
-//        }
-        
+ 
         sum = sum + term;
     }
     
 
     smp_points.clear();
-//
-//
-//    double h = (b-a)/3.0;
-//
-//    double res = 3.0*h/8.0*(integrand(a,T)+3.0*integrand((2*a+b)/3.0,T)+3.0*integrand((a+2.0*b)/3.0,T)+integrand(b,T));
-//
+
     return sum;
     
 }
@@ -590,9 +552,7 @@ double Borexino::decayed_events(double E, double T)
 
     std::vector<double> Smp_points;
     
-  //  double T_min = T-3*Sigma;
-  //  double T_max = T+3*Sigma;
-    
+
     double Sam_width = (b-a)/n_samples;
     
     for(int i=0;i<n_samples;i++)
@@ -620,12 +580,6 @@ double Borexino::decayed_events(double E, double T)
     
     Smp_points.clear();
 
-//
-//
-//    double h = (b-a)/3.0;
-//
-//    double res = 3.0*h/8.0*(integrand(a,T)+3.0*integrand((2*a+b)/3.0,T)+3.0*integrand((a+2.0*b)/3.0,T)+integrand(b,T));
-//
     return sum;
     
 }
@@ -673,10 +627,8 @@ int Borexino::InitEventGenerator()
 			double _events = 0.0;
 
 			_events = bin_w/2.0*(decayed_events(smp_points[i],bin_i[j])+decayed_events(smp_points[i],bin_f[j]));
-            //_events = bin_w/2.0*(standard_events(bin_i[j])+standard_events(bin_f[j]));
             
 			vis_kern[i][j] = _events;
-        //    std::cout<<"Vis Kernel "<<i<<"\t"<<j<<"\t"<<vis_kern[i][j]<<"\t"<<inv_kern[j]<<std::endl;
             
 		}	
 		
@@ -717,7 +669,6 @@ int Borexino::Reconstructed_events()
     
     life = proba.osc_params[6];
     double _delta = proba.osc_params[7];
-    //~ life = 1e-4;
 
     
     double c13 = cos(proba.osc_params[1]);
@@ -731,9 +682,7 @@ int Borexino::Reconstructed_events()
     w.which_type = "Mixed";
     
 
-  //  std::cout<<life<<" ============= "<<prob_vis<<std::endl;
 
-    //_delta = 0.1;
     
         for(int i=0;i<n_bins;i++)
         {
@@ -750,16 +699,13 @@ int Borexino::Reconstructed_events()
                 
                 double  term = 0.0;
                 
-          //      std::cout<<"E_beta "<<E_beta<<std::endl;
                 
                if(E_beta<862.0 && E_beta>=862.0*square(_delta))
                 {
-              //      std::cout<<"delta :"<<_delta<<"\t"<<"weighted_rate :"<<w.weighted_rate(_delta,862.0,E_beta,1)<<std::endl;
 
                     
                     vis_events = vis_events + prob_vis*sam_width/2.0*(w.weighted_rate(_delta,862,E_beta,1)*vis_kern[j][i]+w.weighted_rate(_delta,862,(E_beta+sam_width),1)*vis_kern[j+1][i]);
                     
-              //      vis_events = vis_events + prob_vis*sam_width/2.0*(vis_kern[j][i]+vis_kern[j+1][i]);
               
                 
                 }
@@ -770,7 +716,6 @@ int Borexino::Reconstructed_events()
              //
             }
             
-       //     std::cout<<"E == "<<bin_center[i]<<"\t"<<_events<<"\t"<<vis_events<<std::endl;
 
 
             _events=_events+vis_events;
@@ -800,7 +745,6 @@ int Borexino::Reconstructed_events(double _po_s)
     double delta = proba.osc_params[7];
     
     double prob_inv = c13_4*(proba.pe1[3]*c12_2+proba.pe2[3]*s12_2*Survival(0.862));
-    //std::cout<<prob_inv<<std::endl;
 
     double prob_vis = c13_4*proba.pe2[3]*s12_2*Propagation(0.862);
 
@@ -816,12 +760,10 @@ int Borexino::Reconstructed_events(double _po_s)
 		double vis1=0.;
 		double vis2=0.0;
 		
-       // delta = 0.99;
         
         double a = 862.0*delta*delta;
 		double b = 862.0;
 		
-      //  std::cout<<a<<"\t"<<b<<"\t"<<delta<<" =========\n";
         
 		int n_samp = 50;
 		vec samp;
@@ -836,35 +778,14 @@ int Borexino::Reconstructed_events(double _po_s)
 		for(int j=0;j<n_samp;j++)
 		{
             
-//            if((samp[i])>=862.0*delta*delta && (samp[i]+width)<862.0)
-//            {
                 double term1=0.0;
                 vis1  += width/2.0*(w.weighted_rate(delta,862.0,samp[j],1)*integrate_cross(samp[j],bin_i[i])+w.weighted_rate(delta,862.0,samp[j+1],1)*integrate_cross(samp[j+1],bin_i[i]));
                 double term2 = 0.0;
                 
                 vis2 +=width/2.0*(w.weighted_rate(delta,862.0,samp[j],1)*integrate_cross(samp[j],bin_f[i])+w.weighted_rate(delta,862.0,samp[j+1],1)*integrate_cross(samp[j+1],bin_f[i]));
                 
-//                if(term1>=0)
-//                {
-//                    vis1+=term1;
-//                }
-//
-//                if(term2>=0)
-//                {
-//                    vis2+=term2;
-//                }
-                
-//            }
-//            else
-//            {
-//                vis1+=0;
-//                vis2+=0;
-//
-//            }
-            if(vis1<0)
-            {
-            //    std::cout<<vis1<<" ====== "<<integrate_cross(samp[j],bin_i[i])<<" ====== "<<w.weighted_rate(delta,862.0,samp[j],1)<<" ======= "<<delta<<std::endl;
-            }
+
+  
 		}
 		
         _events = _events + bin_w/2.0*(vis1+vis2);
@@ -879,20 +800,6 @@ int Borexino::Reconstructed_events(double _po_s)
 		
 
 
-
-    
-    //~ if(_standard==SOL_YES)
-    //~ {
-        //~ for(int i=0;i<n_bins;i++)
-        //~ {
-            //~ double _events=0.0;
-        
-            //~ _events = prob_inv*bin_w/2.0*(standard_events(bin_i[i])+standard_events(bin_f[i]));
-        
-            //~ event_vector.push_back(norm*_events);//+(1.0+_po_s)*Po_210_background(bin_center[i])+0.08e-8*beta(bin_center[i],1160.0));
-            
-        //~ }
-    //~ }
 
     return 0;
 }
